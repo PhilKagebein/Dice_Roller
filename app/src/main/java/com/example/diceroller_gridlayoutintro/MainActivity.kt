@@ -293,6 +293,6 @@ class MainActivity : AppCompatActivity() {
 
 
          return dieList
-    }
+    }//fuckScrewn
 
 }
