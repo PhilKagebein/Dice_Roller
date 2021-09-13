@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Dice Roller - Grid Layout Intro</string>
+    <string name="dice_roller">Dice Roller</string>
+    <string name="roll">Roll Dice</string>
+    <string name="how_many_dice">How many dice?</string>
+    <string name="what_type_of_dice">What type of dice?</string>
+    <string name="tvTest"></string>
+
+    <string-array name="saHowManyDice">
+        <item></item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="saDiceType">
+        <item></item>
+        <item>D4</item>
+        <item>D6</item>
+        <item>D8</item>
+        <item>D10</item>
+        <item>D12</item>
+        <item>D20</item>
+    </string-array>
+</resources>

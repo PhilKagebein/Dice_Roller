@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnRollDice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginBottom="35dp"
+        android:text="@string/roll"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="rollDice"
+ />
+
+    <TextView
+        android:id="@+id/tvHowManyDice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:text="@string/how_many_dice"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnRollDice"
+        app:layout_constraintStart_toStartOf="@+id/btnRollDice" />
+
+    <Spinner
+        android:id="@+id/spnHowManyDice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="70dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/btnRollDice"
+        app:layout_constraintEnd_toEndOf="@+id/tvHowManyDice"
+        app:layout_constraintStart_toStartOf="@+id/tvHowManyDice"
+        app:layout_constraintTop_toBottomOf="@+id/tvHowManyDice" />
+
+    <TextView
+        android:id="@+id/tvDiceType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:textSize="17sp"
+        android:text="@string/what_type_of_dice"
+        app:layout_constraintBottom_toBottomOf="@+id/btnRollDice"
+        app:layout_constraintEnd_toEndOf="@+id/btnRollDice" />
+
+    <Spinner
+        android:id="@+id/spnDiceType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnRollDice"
+        app:layout_constraintEnd_toEndOf="@+id/tvDiceType"
+        app:layout_constraintStart_toStartOf="@+id/tvDiceType"
+        app:layout_constraintTop_toBottomOf="@+id/tvDiceType" />
+
+    <TextView
+        android:id="@+id/tvSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text=""
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvHowManyDice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <GridView
+        android:id="@+id/gvDieResults"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvSum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
