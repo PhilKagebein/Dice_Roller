@@ -4,83 +4,96 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/LABlack">
 
+    <!--Roll Button-->
     <Button
         android:id="@+id/btnRollDice"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_marginHorizontal="60dp"
         android:layout_marginBottom="35dp"
         android:text="@string/roll"
-        android:textSize="20sp"
+        android:textSize="40sp"
+        android:background="@color/LAOrange"
+        android:backgroundTint="@color/LAOrange"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:onClick="rollDice"
  />
 
+    <!--How Many text and spinner-->
     <TextView
         android:id="@+id/tvHowManyDice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_marginBottom="150dp"
         android:text="@string/how_many_dice"
-        android:textSize="17sp"
+        android:textSize="20sp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/btnRollDice"
         app:layout_constraintStart_toStartOf="@+id/btnRollDice" />
-
     <Spinner
         android:id="@+id/spnHowManyDice"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="70dp"
-
+        android:backgroundTint="@color/white"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toTopOf="@+id/btnRollDice"
         app:layout_constraintEnd_toEndOf="@+id/tvHowManyDice"
         app:layout_constraintStart_toStartOf="@+id/tvHowManyDice"
         app:layout_constraintTop_toBottomOf="@+id/tvHowManyDice" />
 
+    <!--Dice type text and spinner-->
     <TextView
         android:id="@+id/tvDiceType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="150dp"
-        android:textSize="17sp"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="@color/white"
         android:text="@string/what_type_of_dice"
         app:layout_constraintBottom_toBottomOf="@+id/btnRollDice"
         app:layout_constraintEnd_toEndOf="@+id/btnRollDice" />
-
     <Spinner
         android:id="@+id/spnDiceType"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="70dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toTopOf="@+id/btnRollDice"
         app:layout_constraintEnd_toEndOf="@+id/tvDiceType"
         app:layout_constraintStart_toStartOf="@+id/tvDiceType"
         app:layout_constraintTop_toBottomOf="@+id/tvDiceType" />
 
+    <!--Sum textview-->
     <TextView
         android:id="@+id/tvSum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
+        android:textColor="@color/white"
         android:text=""
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/tvHowManyDice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!--GridView for displaying dice-->
     <GridView
         android:id="@+id/gvDieResults"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:gravity="center"
         android:numColumns="auto_fit"
+        android:layout_marginTop="25dp"
         android:verticalSpacing="25dp"
         app:layout_constraintBottom_toTopOf="@+id/tvSum"
         app:layout_constraintEnd_toEndOf="parent"
