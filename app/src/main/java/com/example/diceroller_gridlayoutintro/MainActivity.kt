@@ -1,6 +1,5 @@
 package com.example.diceroller_gridlayoutintro
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -108,11 +107,12 @@ class MainActivity : AppCompatActivity() {
                 //Originally only had one initilization of gridView on line 104 "gridView = findViewby...." App would crash if I picked any 2-6 dice to start since it wasn't initialized. Is a better way to do this other than writing the same line twice?
                 gridView = findViewById(R.id.gvDieResults)
                 binding.tvSum.visibility = View.VISIBLE
+
                 when(howMany){
                     2,3 -> {gridView.numColumns = 1}
                     4,5,6 -> {gridView.numColumns = 2}
-
                 }
+
                 val whatTypeInt: Int = whatType.substring(1).toInt()
                 //created the var whatTypeInt because when I just changed whatType to an int, the app would crash after rolling twice. I assume it's because of the previous if statement on line 92. Don't know why tho
                 for (i in 1..howMany) {
@@ -122,168 +122,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             binding.tvSum.append("Sum: $sum")
-
         }
-        //add !! operator to dieList to remove error. why?
         binding.gvDieResults.adapter = DieResultAdapter(this, dieList)
     }
 
      private fun setDiceList(diceValue: Int, diceTypeInt: Int): ArrayList<DieModel>{
 
-         val d4ImageNames = arrayOf(
-            "d4_1",
-            "d4_2",
-            "d4_3",
-            "d4_4",
-        )
-         val d4Images = intArrayOf(
-             R.drawable.d4_1,
-             R.drawable.d4_2,
-             R.drawable.d4_3,
-             R.drawable.d4_4,
-         )
-
-         val d6ImageNames = arrayOf(
-            "d6_1",
-            "d6_2",
-            "d6_3",
-            "d6_4",
-            "d6_5",
-            "d6_6",
-        )
-         val d6Images = intArrayOf(
-            R.drawable.d6_1,
-            R.drawable.d6_2,
-            R.drawable.d6_3,
-            R.drawable.d6_4,
-            R.drawable.d6_5,
-            R.drawable.d6_6, )
-
-         val d8ImageNames = arrayOf(
-             "d8_1",
-             "d8_2",
-             "d8_3",
-             "d8_4",
-             "d8_5",
-             "d8_6",
-             "d8_7",
-             "d8_8",
-         )
-         val d8Images = intArrayOf(
-             R.drawable.d8_1,
-             R.drawable.d8_2,
-             R.drawable.d8_3,
-             R.drawable.d8_4,
-             R.drawable.d8_5,
-             R.drawable.d8_6,
-             R.drawable.d8_7,
-             R.drawable.d8_8,)
-
-         val d10ImageNames = arrayOf(
-             "d10_1",
-             "d10_2",
-             "d10_3",
-             "d10_4",
-             "d10_5",
-             "d10_6",
-             "d10_7",
-             "d10_8",
-             "d10_9",
-             "d10_10",
-         )
-         val d10Images = intArrayOf(
-             R.drawable.d10_1,
-             R.drawable.d10_2,
-             R.drawable.d10_3,
-             R.drawable.d10_4,
-             R.drawable.d10_5,
-             R.drawable.d10_6,
-             R.drawable.d10_7,
-             R.drawable.d10_8,
-             R.drawable.d10_9,
-             R.drawable.d10_10,)
-
-         val d12ImageNames = arrayOf(
-             "d12_1",
-             "d12_2",
-             "d12_3",
-             "d12_4",
-             "d12_5",
-             "d12_6",
-             "d12_7",
-             "d12_8",
-             "d12_9",
-             "d12_10",
-             "d12_11",
-             "d12_12",
-         )
-         val d12Images = intArrayOf(
-             R.drawable.d12_1,
-             R.drawable.d12_2,
-             R.drawable.d12_3,
-             R.drawable.d12_4,
-             R.drawable.d12_5,
-             R.drawable.d12_6,
-             R.drawable.d12_7,
-             R.drawable.d12_8,
-             R.drawable.d12_9,
-             R.drawable.d12_10,
-             R.drawable.d12_11,
-             R.drawable.d12_12, )
-
-         val d20ImageNames = arrayOf(
-             "d20_1",
-             "d20_2",
-             "d20_3",
-             "d20_4",
-             "d20_5",
-             "d20_6",
-             "d20_7",
-             "d20_8",
-             "d20_9",
-             "d20_10",
-             "d20_11",
-             "d20_12",
-             "d20_13",
-             "d20_14",
-             "d20_15",
-             "d20_16",
-             "d20_17",
-             "d20_18",
-             "d20_19",
-             "d20_20",
-         )
-         val d20Images = intArrayOf(
-             R.drawable.d20_1,
-             R.drawable.d20_2,
-             R.drawable.d20_3,
-             R.drawable.d20_4,
-             R.drawable.d20_5,
-             R.drawable.d20_6,
-             R.drawable.d20_7,
-             R.drawable.d20_8,
-             R.drawable.d20_9,
-             R.drawable.d20_10,
-             R.drawable.d20_11,
-             R.drawable.d20_12,
-             R.drawable.d20_13,
-             R.drawable.d20_14,
-             R.drawable.d20_15,
-             R.drawable.d20_16,
-             R.drawable.d20_17,
-             R.drawable.d20_18,
-             R.drawable.d20_19,
-             R.drawable.d20_20, )
-
          when(diceTypeInt){
-          4 -> dieList.add(DieModel(d4Images[diceValue-1], d4ImageNames[diceValue-1]))
-          6 -> dieList.add(DieModel(d6Images[diceValue-1], d6ImageNames[diceValue-1]))
-          8 -> dieList.add(DieModel(d8Images[diceValue-1], d8ImageNames[diceValue-1]))
-          10 -> dieList.add(DieModel(d10Images[diceValue-1], d10ImageNames[diceValue-1]))
-          12 -> dieList.add(DieModel(d12Images[diceValue-1], d12ImageNames[diceValue-1]))
-          20 -> dieList.add(DieModel(d20Images[diceValue-1], d20ImageNames[diceValue-1]))
+             4 -> dieList.add(DieModel(resources.getIdentifier("d4_$diceValue", "drawable", packageName), "d4_+$diceValue"))
+             6 -> dieList.add(DieModel(resources.getIdentifier("d6_$diceValue", "drawable", packageName), "d6_+$diceValue"))
+             8 -> dieList.add(DieModel(resources.getIdentifier("d8_$diceValue", "drawable", packageName), "d8_+$diceValue"))
+             10 -> dieList.add(DieModel(resources.getIdentifier("d10_$diceValue", "drawable", packageName), "d10_+$diceValue"))
+             12 -> dieList.add(DieModel(resources.getIdentifier("d12_$diceValue", "drawable", packageName), "d12_+$diceValue"))
+             20 -> dieList.add(DieModel(resources.getIdentifier("d20_$diceValue", "drawable", packageName), "d20_+$diceValue"))
          }
-
          return dieList
     }
 
