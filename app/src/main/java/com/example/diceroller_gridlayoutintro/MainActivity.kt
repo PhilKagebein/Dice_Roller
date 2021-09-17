@@ -147,6 +147,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun getDiceValues(howMany: Int, whatType: String): ArrayList<DieModel>{
         sum = 0
         val whatTypeInt: Int = whatType.substring(1).toInt()
@@ -159,5 +160,8 @@ class MainActivity : AppCompatActivity() {
         binding.tvSum.append("Sum: $sum")
         return dieList
     }
+         return dieList
+    }//fuckScrewn
+
 
 }
