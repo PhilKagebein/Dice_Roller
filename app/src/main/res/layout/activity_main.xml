@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="rollDice"
+
  />
 
     <!--How Many text and spinner-->
@@ -86,15 +86,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <!--GridView for displaying dice-->
-    <GridView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gvDieResults"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
         android:gravity="center"
-        android:numColumns="auto_fit"
         android:layout_marginTop="25dp"
         android:verticalSpacing="25dp"
+        tools:listitem="@layout/die_result"
         app:layout_constraintBottom_toTopOf="@+id/tvSum"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
