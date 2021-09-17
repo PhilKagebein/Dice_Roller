@@ -22,8 +22,9 @@ class DieResultAdapter(var context: Context, var diceList: ArrayList<DieModel>):
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var view: View = View.inflate(context, R.layout.die_result, null)
-        var imageView = view?.findViewById<ImageView>(R.id.ivDieImage)
+        //videos I watched on using gridViews and adapters all used safe call operators and null checks. Would appreciate a chat about that
+        val view: View = View.inflate(context, R.layout.die_result, null)
+        val imageView = view?.findViewById<ImageView>(R.id.ivDieImage)
         imageView?.setImageResource(diceList[position].imageIcon!!)
 
         return view!!
