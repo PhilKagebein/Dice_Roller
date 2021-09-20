@@ -13,7 +13,6 @@ class DieResultAdapter(var context: Context, var diceList: ArrayList<DieModel>):
 
     class DieResultViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.ivDieImage)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DieResultViewHolder {
@@ -23,11 +22,24 @@ class DieResultAdapter(var context: Context, var diceList: ArrayList<DieModel>):
     }
 
     override fun onBindViewHolder(holder: DieResultViewHolder, position: Int) {
+        // @@@ktg
+        // Bang bang (!!) is something we very much try to avoid. Couple ways to avoid it.
+        // You could make imageIcon a non-nullable property of DieModel
+        // You could unwrap the nullable using let, i.e.
+        /*
+        diceList[position].imageIcon?.let {
+            holder.imageView.setImageResource(it)
+        }
+        */
+        // We can chat about unwrapping, super important in Kotlin
 
         holder.imageView.setImageResource(diceList[position].imageIcon!!)
     }
 
     override fun getItemCount() = diceList.size
+    // @@@ktg
+    // Version control should empower you to just delete code rather than commenting it out
+    // since you can reference previous versions of your code if you ever need old code
 //    override fun getCount(): Int {
 //        return diceList.size
 //
