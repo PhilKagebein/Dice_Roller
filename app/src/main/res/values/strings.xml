@@ -7,7 +7,6 @@
 
 
     <string-array name="saHowManyDice">
-        <item></item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -17,7 +16,6 @@
     </string-array>
 
     <string-array name="saDiceType">
-        <item></item>
         <item>D4</item>
         <item>D6</item>
         <item>D8</item>

@@ -5,18 +5,12 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.diceroller_gridlayoutintro.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    //private var howMany = 0
-
     //**Can save this chat for later*** Originally dieLIst set using the safe call operator and defined as null. Was getting fucky results though when adding results to dieList down in the setDiceList function. Don't know why
     private var dieList: ArrayList<DieModel> = ArrayList()
-   // private var whatType = ""
-    //private lateinit var spinnerHowMany: Spinner
-    //private lateinit var spinnerDiceType: Spinner
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +18,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var howMany = 0
-        var whatType = ""
+        var howMany = 1
+        var whatType = "d6"
         binding.btnRollDice.setOnClickListener { rollDice(howMany, whatType) }
 
         val spinnerHowMany = initHowManySpinner()
@@ -33,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         spinnerHowMany.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                howMany = howManySelect(p2)
+                howMany = howManySelect(p2) + 1
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -56,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             dieList = ArrayList()
             //Originally had !! after dieList (because tutorial told me to).
             //I assume there's some big ass conversation here about nullability which we can save for a later date
-            binding.gvDieResults.adapter = DieResultAdapter(this, dieList)
+            binding.rvDieResults.adapter = DieResultAdapter(this, dieList)
             binding.tvSum.text = ""
         }
         return p2
@@ -64,33 +58,22 @@ class MainActivity : AppCompatActivity() {
 
     fun diceType(p2: Int, spinnerDiceType: Spinner, whatType: String): String {
 
-        //didn't want to have whatTypeDummy here. Planned to justt have whatType = spinnerDiceType....
-        //kept getting error of "Val cannot be reassigned" as an error. No idea why. It's not a val?
         var whatTypeDummy = ""
-
-        if (p2 != 0) {
-            whatTypeDummy = spinnerDiceType.getItemAtPosition(p2).toString()
-        }
+        whatTypeDummy = spinnerDiceType.getItemAtPosition(p2).toString()
         return whatTypeDummy
     }
 
-    fun rollDice(howMany: Int, whatType: String) {
+    private fun rollDice(howMany: Int, whatType: String) {
 
         dieList = ArrayList()
         binding.tvSum.text = ""
 
         dieList = getDiceValues(howMany, whatType)
-        setRecyclerView(howMany, whatType)
         binding.tvSum.visibility = sumVisibility(howMany, whatType)
+        binding.rvDieResults.adapter = DieResultAdapter(this, dieList)
 
-        binding.gvDieResults.adapter = DieResultAdapter(this, dieList)
+        setRecyclerView(dieList)
 
-        //images did not show up without these two lines. Why?
-        //still fucking with this. dice used to be a gridView. Now recycler view. Does not work how I want yet.
-        val gridLayoutManager = GridLayoutManager(applicationContext, 1, GridLayoutManager.VERTICAL, false)
-        binding.gvDieResults.layoutManager = gridLayoutManager
-        //probably don't need setHasFixedSize(). Leaving for now until I get everything working.
-        binding.gvDieResults.setHasFixedSize(false)
     }
 
     private fun setDiceList(diceValue: Int, diceTypeInt: Int): ArrayList<DieModel> {
@@ -108,51 +91,32 @@ class MainActivity : AppCompatActivity() {
 
     private fun initHowManySpinner(): Spinner {
 
-        // ***Originally I used the following line to assign a string array in the strings.xml to a variable.
-        // then put that variable in the spinner adapter in order to create the spinner. Is there any reason to create the variable? Or is what I have now best practice?****
-        // *** LEAVE THIS LINE IN, FIX LATER***
-        var howManyStrArray= resources.getStringArray(R.array.saHowManyDice)
+        val howManyStrArray = resources.getStringArray(R.array.saHowManyDice)
         val spinnerHowMany = binding.spnHowManyDice
         spinnerHowMany.adapter = ArrayAdapter(this, R.layout.spinner_items, howManyStrArray)
+        spinnerHowMany.setSelection(0)
 
         return spinnerHowMany
     }
 
     private fun initWhatTypeSpinner(): Spinner {
 
+        val diceTypeStrArray = resources.getStringArray(R.array.saDiceType)
         val spinnerDiceType = binding.spnDiceType
-        spinnerDiceType.adapter = ArrayAdapter(this, R.layout.spinner_items, resources.getStringArray(R.array.saDiceType))
+        spinnerDiceType.adapter = ArrayAdapter(this, R.layout.spinner_items, diceTypeStrArray)
+        spinnerDiceType.setSelection(1)
 
         return spinnerDiceType
     }
 
-    private fun setRecyclerView(howMany: Int, whatType: String) {
-
-        //Leaving this until I fix formatting of dice.
-        binding.tvSum.visibility = sumVisibility(howMany, whatType)
-        var gridView: RecyclerView = findViewById(R.id.gvDieResults)
-        when (howMany) {
-            1 -> {
-                // gridView.numColumns = 1
-            }
-
-            2, 3 -> {
-                // gridView.numColumns = 1
-            }
-
-            4, 5, 6 -> {
-                //  gridView.numColumns = 2
-            }
-        }
-    }
-
     private fun getDiceValues(howMany: Int, whatType: String): ArrayList<DieModel> {
+
         var sum = 0
         val whatTypeInt: Int = whatType.substring(1).toInt()
         for (i in 1..howMany) {
-            val diceValue = (1..whatTypeInt).random()
-            sum += diceValue
+            var diceValue = (1..whatTypeInt).random()
             dieList = setDiceList(diceValue, whatTypeInt)
+            sum = calculateSum(sum, diceValue)
         }
         binding.tvSum.append("Sum: $sum")
         return dieList
@@ -163,6 +127,39 @@ class MainActivity : AppCompatActivity() {
             return View.GONE
         } else {
             return View.VISIBLE
+        }
+    }
+
+    private fun setRecyclerView(dieList: ArrayList<DieModel>){
+
+        val gridLayoutManager = GridLayoutManager(applicationContext, 2, GridLayoutManager.VERTICAL, false)
+        gridLayoutManager.spanSizeLookup = DiceSpanLookup(dieList)
+        binding.rvDieResults.layoutManager = gridLayoutManager
+    }
+
+    private fun calculateSum(sum: Int, diceValue: Int): Int {
+        var sumDummy = sum
+        sumDummy += diceValue
+        return sumDummy
+    }
+
+    class DiceSpanLookup(dieList: ArrayList<DieModel>): GridLayoutManager.SpanSizeLookup() {
+
+       private var dieListSize = dieList.size
+
+        override fun getSpanSize(position: Int): Int {
+
+            when(dieListSize) {
+                4, 6 -> {return 1}
+                5 -> {
+                    if(position == 2){
+                        return 2
+                    }else {
+                        return 1
+                    }
+                }
+            }
+            return 2
         }
     }
 }

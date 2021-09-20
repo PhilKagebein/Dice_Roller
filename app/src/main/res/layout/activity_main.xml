@@ -64,6 +64,7 @@
     <Spinner
         android:id="@+id/spnDiceType"
         android:layout_width="wrap_content"
+        android:backgroundTint="@color/white"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="50dp"
@@ -87,7 +88,7 @@
 
     <!--GridView for displaying dice-->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/gvDieResults"
+        android:id="@+id/rvDieResults"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
