@@ -22,30 +22,10 @@ class DieResultAdapter(private var context: Context, private var diceList: Array
 
     override fun onBindViewHolder(holder: DieResultViewHolder, position: Int) {
 
-        holder.imageView.setImageResource(diceList[position].imageIcon!!)
+        diceList[position].imageIcon?.let{
+            holder.imageView.setImageResource(it)
+        }
     }
 
     override fun getItemCount() = diceList.size
-//    override fun getCount(): Int {
-//        return diceList.size
-//
-//    }
-//
-//    override fun getItem(position: Int): Any {
-//        return diceList[position]
-//
-//    }
-//
-//    override fun getItemId(position: Int): Long {
-//        return position.toLong()
-//    }
-//
-//    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-//        //videos I watched on using gridViews and adapters all used safe call operators and null checks. Would appreciate a chat about that
-//        val view: View = View.inflate(context, R.layout.die_result, null)
-//        val imageView = view?.findViewById<ImageView>(R.id.ivDieImage)
-//        imageView?.setImageResource(diceList[position].imageIcon!!)
-//
-//        return view!!
-//    }
 }
