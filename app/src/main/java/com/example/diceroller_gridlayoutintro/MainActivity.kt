@@ -67,14 +67,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setDiceList(diceValue: Int, diceTypeInt: Int): ArrayList<DieModel> {
 
-        when (diceTypeInt) {
-            4 -> dieList.add(DieModel(resources.getIdentifier("d4_$diceValue", "drawable", packageName), "d4_+$diceValue"))
-            6 -> dieList.add(DieModel(resources.getIdentifier("d6_$diceValue", "drawable", packageName), "d6_+$diceValue"))
-            8 -> dieList.add(DieModel(resources.getIdentifier("d8_$diceValue", "drawable", packageName), "d8_+$diceValue"))
-            10 -> dieList.add(DieModel(resources.getIdentifier("d10_$diceValue", "drawable", packageName), "d10_+$diceValue"))
-            12 -> dieList.add(DieModel(resources.getIdentifier("d12_$diceValue", "drawable", packageName), "d12_+$diceValue"))
-            20 -> dieList.add(DieModel(resources.getIdentifier("d20_$diceValue", "drawable", packageName), "d20_+$diceValue"))
-        }
+        dieList.add(DieModel(resources.getIdentifier("d${diceTypeInt}_$diceValue", "drawable", packageName), "d${diceTypeInt}_+$diceValue"))
+
         return dieList
     }
 
