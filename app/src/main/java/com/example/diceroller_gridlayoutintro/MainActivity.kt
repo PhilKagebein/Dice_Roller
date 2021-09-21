@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         spinnerHowMany.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                howMany = howManySelect(p2) + 1
+                howMany = p2 + 1
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -42,18 +42,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-    }
-
-    fun howManySelect(p2: Int): Int {
-
-        if (p2 == 0) {
-            dieList = ArrayList()
-            //Originally had !! after dieList (because tutorial told me to).
-            //I assume there's some big ass conversation here about nullability which we can save for a later date
-            binding.rvDieResults.adapter = DieResultAdapter(this, dieList)
-            binding.tvSum.text = ""
-        }
-        return p2
     }
 
     fun diceType(p2: Int, spinnerDiceType: Spinner, whatType: String): String {
