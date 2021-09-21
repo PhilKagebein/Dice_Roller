@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         binding.tvSum.text = ""
 
         dieList = getDiceValues(howMany, whatType)
-        binding.tvSum.visibility = sumVisibility(howMany, whatType)
+        binding.tvSum.visibility = setSumVisibility(howMany, whatType)
         binding.rvDieResults.adapter = DieResultAdapter(this, dieList)
 
         setRecyclerView(dieList)
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         return dieList
     }
 
-    private fun sumVisibility(howMany: Int, whatType: String): Int {
+    private fun setSumVisibility(howMany: Int, whatType: String): Int {
         if (howMany == 0 || howMany == 1 || whatType == "") {
             return View.GONE
         } else {
@@ -121,6 +121,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calculateSum(sum: Int, diceValue: Int): Int {
+
         var sumDummy = sum
         sumDummy += diceValue
         return sumDummy
