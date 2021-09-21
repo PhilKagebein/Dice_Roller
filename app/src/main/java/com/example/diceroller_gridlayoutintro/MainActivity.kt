@@ -26,19 +26,20 @@ class MainActivity : AppCompatActivity() {
         val spinnerDiceType = initWhatTypeSpinner()
 
         spinnerHowMany.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                howMany = p2 + 1
+            //Need explanation on what p0/AdapterView, p1/View, & rowId are doing
+            override fun onItemSelected(howManyAdapterView: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
+                howMany = itemPosition + 1
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
+            override fun onNothingSelected(howManyAdapterView: AdapterView<*>?) {
             }
         }
         spinnerDiceType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                whatType = diceType(p2, spinnerDiceType, whatType)
+            override fun onItemSelected(diceTypeAdapterview: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
+                whatType = diceType(itemPosition, spinnerDiceType, whatType)
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
+            override fun onNothingSelected(diceTypeAdapterView: AdapterView<*>?) {
             }
 
         }
