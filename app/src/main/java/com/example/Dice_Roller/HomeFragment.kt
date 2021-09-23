@@ -102,7 +102,6 @@ class HomeFragment: Fragment() {
 
     private fun initHowManySpinner(): Spinner {
 
-
         val howManyStrArray = resources.getStringArray(R.array.saHowManyDice)
         val spinnerHowMany = binding.spnHowManyDice
         spinnerHowMany.adapter = ArrayAdapter(requireContext(), R.layout.spinner_items, howManyStrArray)
