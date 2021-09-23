@@ -17,6 +17,7 @@
         android:scaleType="centerInside"
         android:layout_marginVertical="15dp"
         app:srcCompat="@drawable/d6_1"
+        android:background="@color/LABlack"
     />
 
 </LinearLayout>
