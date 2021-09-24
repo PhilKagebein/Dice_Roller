@@ -25,8 +25,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val actionBar = supportActionBar
-        val actionBarColor = ColorDrawable(Color.parseColor("#83596D"))
+        val actionBarColor = ColorDrawable(Color.parseColor("#191919"))
         actionBar?.setBackgroundDrawable(actionBarColor)
+        actionBar?.setDisplayShowTitleEnabled(false)
 
 // both options work
 //        val navController = Navigation.findNavController(this,R.id.main_fragment)
