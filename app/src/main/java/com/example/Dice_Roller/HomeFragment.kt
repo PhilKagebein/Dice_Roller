@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.diceroller_gridlayoutintro.R
 import com.example.diceroller_gridlayoutintro.databinding.HomeFragmentBinding
@@ -168,13 +169,21 @@ class HomeFragment: Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.S)
     fun vibratePhone() {
-        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+        //Is this best practice to have the function in the if statement? Or should i pull it out and set a variable equal to the return of the function and then use the variable in the if?
+        if (loadVibrateSetting()) {
+            val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
-        } else {
-            vibrator?.vibrate(100)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                vibrator?.vibrate(100)
+            }
         }
+    }
+
+    private fun loadVibrateSetting(): Boolean {
+        val sp = PreferenceManager.getDefaultSharedPreferences(context)
+        return sp.getBoolean("vibrate", true)
     }
 
     class DiceSpanLookup(dieList: ArrayList<DieModel>): GridLayoutManager.SpanSizeLookup() {
