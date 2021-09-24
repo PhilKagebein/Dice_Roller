@@ -12,7 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSecondary</item>
         <item name="android:actionBarTheme" tools:targetApi="l">?attr/colorOnSecondary</item>
-
+        <item name="android:settingsActivity" tools:targetApi="l">?attr/colorOnSecondary</item>
         <!-- Customize your theme here. -->
     </style>
+
 </resources>
