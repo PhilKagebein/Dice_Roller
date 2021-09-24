@@ -1,12 +1,14 @@
 package com.example.Dice_Roller
 
-import android.os.Bundle
+import android.content.Context
+import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.diceroller_gridlayoutintro.R
@@ -18,12 +20,15 @@ class HomeFragment: Fragment() {
     private var dieList: ArrayList<DieModel> = ArrayList()
     private lateinit var binding: HomeFragmentBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         binding = HomeFragmentBinding.inflate(inflater, container, false )
 
         return binding.root
     }
+
+
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -31,7 +36,11 @@ class HomeFragment: Fragment() {
         var howMany = 1
         var whatType = "d6"
 
-        binding.btnRollDice.setOnClickListener { rollDice(howMany, whatType) }
+        binding.btnRollDice.setOnClickListener {
+            rollDice(howMany, whatType)
+            vibratePhone()
+        }
+
 
 //        val howManyStrArray = resources.getStringArray(R.array.saHowManyDice)
 //        var spinnerHowMany = binding.spnHowManyDice
@@ -71,6 +80,7 @@ class HomeFragment: Fragment() {
         return spinnerDiceType.getItemAtPosition(p2).toString()
 
     }
+
 
     private fun rollDice(howMany: Int, whatType: String) {
 
@@ -125,7 +135,7 @@ class HomeFragment: Fragment() {
         var sum = 0
         val whatTypeInt: Int = whatType.substring(1).toInt()
         for (i in 1..howMany) {
-            var diceValue = (1..whatTypeInt).random()
+            val diceValue = (1..whatTypeInt).random()
             dieList = setDiceList(diceValue, whatTypeInt)
             sum = calculateSum(sum, diceValue)
         }
@@ -153,6 +163,18 @@ class HomeFragment: Fragment() {
         var sumDummy = sum
         sumDummy += diceValue
         return sumDummy
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun vibratePhone() {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator?.vibrate(100)
+        }
     }
 
     class DiceSpanLookup(dieList: ArrayList<DieModel>): GridLayoutManager.SpanSizeLookup() {
