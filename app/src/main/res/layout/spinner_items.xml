@@ -8,4 +8,5 @@
     android:textColor="@color/white"
     android:background="@color/LABlack"
     android:paddingHorizontal="10dp"
+    android:id="@+id/spinner_items"
     />
