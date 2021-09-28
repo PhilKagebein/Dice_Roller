@@ -9,11 +9,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.diceroller_gridlayoutintro.R
 import com.example.diceroller_gridlayoutintro.databinding.HomeFragmentBinding
+import kotlin.collections.ArrayList
 
 
 class HomeFragment: Fragment() {
@@ -21,13 +23,13 @@ class HomeFragment: Fragment() {
     private var dieList: ArrayList<DieModel> = ArrayList()
     private lateinit var binding: HomeFragmentBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        checkThemeMode()
         binding = HomeFragmentBinding.inflate(inflater, container, false )
 
         return binding.root
     }
-
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,7 +42,11 @@ class HomeFragment: Fragment() {
         binding.btnRollDice.setOnClickListener {
             rollDice(howMany, whatType)
             vibratePhone()
+
         }
+
+//        darkMode.setOnPreferenceChangeListener()
+//        reference.OnPreferenceChangeListener(darkMode)
 
 
 //        val howManyStrArray = resources.getStringArray(R.array.saHowManyDice)
@@ -76,12 +82,23 @@ class HomeFragment: Fragment() {
 
     }
 
+    private fun checkThemeMode(){
+        val sp = PreferenceManager.getDefaultSharedPreferences(context)
+        val darkModeValue = sp.getBoolean("dark_mode", true)
+
+        if(darkModeValue) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
+    }
+
     fun getDiceType(p2: Int, spinnerDiceType: Spinner): String {
 
         return spinnerDiceType.getItemAtPosition(p2).toString()
 
     }
-
 
     private fun rollDice(howMany: Int, whatType: String) {
 
@@ -165,7 +182,6 @@ class HomeFragment: Fragment() {
         sumDummy += diceValue
         return sumDummy
     }
-
 
     @RequiresApi(Build.VERSION_CODES.S)
     fun vibratePhone() {

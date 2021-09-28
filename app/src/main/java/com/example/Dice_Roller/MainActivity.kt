@@ -1,14 +1,11 @@
 package com.example.Dice_Roller
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.forEachIndexed
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.diceroller_gridlayoutintro.R
@@ -45,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         return true
 
     }
-    //why only work in Main Activity? -because onOptionsItemSelected is part of the activity class yes?
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId) {
@@ -54,6 +51,8 @@ class MainActivity : AppCompatActivity() {
                 displayOverflowMenu = false
                 invalidateOptionsMenu()
                 findNavController(R.id.main_fragment).navigate(R.id.navigateToSettingsFragment)
+                displayOverflowMenu = true
+                invalidateOptionsMenu()
 
             }
         }
@@ -71,7 +70,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        invalidateOptionsMenu()
         val navController = findNavController(R.id.main_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
