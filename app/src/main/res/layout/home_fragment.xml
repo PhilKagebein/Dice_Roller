@@ -7,7 +7,6 @@
     android:id="@+id/home_fragment"
     android:background="?attr/backColor"
     >
-<!--    android:background="@color/LABlack"-->
 
     <!--Roll Button-->
     <Button
@@ -18,7 +17,7 @@
         android:layout_marginBottom="35dp"
         android:text="@string/roll"
         android:textSize="40sp"
-        android:background="?attr/primaryColor"
+        android:background="@drawable/rounded_button"
         android:backgroundTint="?attr/primaryColor"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
