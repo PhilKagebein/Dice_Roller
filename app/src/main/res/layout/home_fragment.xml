@@ -31,11 +31,12 @@
         android:id="@+id/tvHowManyDice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="150dp"
+        android:gravity="center"
         android:text="@string/how_many_dice"
-        android:textSize="20sp"
         android:textColor="?attr/txtColor"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnRollDice"
         app:layout_constraintStart_toStartOf="@+id/btnRollDice" />
     <Spinner
@@ -55,11 +56,12 @@
         android:id="@+id/tvDiceType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="150dp"
         android:gravity="center_horizontal"
-        android:textSize="20sp"
-        android:textColor="?attr/txtColor"
         android:text="@string/what_type_of_dice"
+        android:textColor="?attr/txtColor"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnRollDice"
         app:layout_constraintEnd_toEndOf="@+id/btnRollDice" />
     <Spinner

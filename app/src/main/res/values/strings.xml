@@ -2,8 +2,8 @@
     <string name="app_name">Dice Roller</string>
     <string name="dice_roller">Dice Roller</string>
     <string name="roll">Roll</string>
-    <string name="how_many_dice">How many dice?</string>
-    <string name="what_type_of_dice">Dice type?</string>
+    <string name="how_many_dice">How many</string>
+    <string name="what_type_of_dice">Dice type</string>
 
 
     <string-array name="saHowManyDice">
