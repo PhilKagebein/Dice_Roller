@@ -5,8 +5,9 @@
     android:layout_height="wrap_content"
     android:textSize="20sp"
     android:gravity="center"
-    android:textColor="@color/white"
-    android:background="@color/LABlack"
+    android:textColor="?attr/txtColor"
+    android:background="?attr/backColor"
+    android:backgroundTint="?attr/backColor"
     android:paddingHorizontal="10dp"
     android:id="@+id/spinner_items"
     />

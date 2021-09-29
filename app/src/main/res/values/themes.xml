@@ -3,22 +3,49 @@
     <style name="Theme.DiceRollerGridLayoutIntro" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
 
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/LAOrange</item>
-        <item name="colorPrimaryVariant">@color/LAOffOrange</item>
+        <item name="colorPrimary">@color/LAPurple</item>
+        <item name="colorPrimaryVariant">@color/LAOffPurple</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/LAPurple</item>
-        <item name="colorSecondaryVariant">@color/LAOffPurple</item>
+        <item name="colorSecondary">@color/LAOrange</item>
+        <item name="colorSecondaryVariant">@color/LAOffOrange</item>
         <item name="colorOnSecondary">@color/LABlack</item>
-        <item name="colorOnBackground">@color/LABlack</item>
-        <item name="colorBackgroundFloating">@color/LAPurple</item>
-        <item name="colorError">@color/LAPurple</item>
-        <item name="colorOnError">@color/LAPurple</item>
-        <item name="android:colorBackground">@color/LAGray</item>
+
+        <!--Attributes Here-->
+        <item name="backColor">@color/LAGray</item>
+        <item name="txtColor">@color/LABlack</item>
+        <item name="primaryColor">@color/LAOrange</item>
+        <item name="secondaryColor">@color/LAPurple</item>
+        <item name="primaryColorVariant">@color/LAOffOrange</item>
+        <item name="secondaryColorVariant">@color/LAOffPurple</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="actionBarItemBackground" tools:targetApi="l">?attr/backColor</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
+        <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <item name="drawerArrowStyle">@style/ActionBarArrow</item>
+
+<!--Sets action bar background color & the background on the overflow menu items-->
         <item name="android:background">@color/LAGray</item>
+
         <!-- Customize your theme here. -->
     </style>
+<!--Sets color for back arrow on action bar-->
+    <style name="ActionBarArrow" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">?attr/txtColor</item>
+    </style>
+<!--Sets color for overflow button on action bar-->
+    <style name="OverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="tint">?attr/txtColor</item>
+        <item name="android:itemBackground">?attr/backColor</item>
+    </style>
+
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:itemBackground">?attr/backColor</item>
+        <item name="background">?attr/backColor</item>
+    </style>
+
+
 
 </resources>

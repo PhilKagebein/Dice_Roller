@@ -1,6 +1,9 @@
 package com.example.Dice_Roller
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -19,6 +22,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         }
 
+    @SuppressLint("ResourceType")
     private fun changeThemeMode(): Boolean{
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
         val darkModeValue = sp.getBoolean("dark_mode", true)

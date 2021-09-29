@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.diceroller_gridlayoutintro.R
@@ -23,10 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val actionBar = supportActionBar
-        val actionBarColor = ColorDrawable(Color.parseColor("#191919"))
-        actionBar?.setBackgroundDrawable(actionBarColor)
-        actionBar?.setDisplayShowTitleEnabled(false)
+        setActionBar()
 
 // both options work
 //        val navController = Navigation.findNavController(this,R.id.main_fragment)
@@ -53,7 +51,6 @@ class MainActivity : AppCompatActivity() {
                 findNavController(R.id.main_fragment).navigate(R.id.navigateToSettingsFragment)
                 displayOverflowMenu = true
                 invalidateOptionsMenu()
-
             }
         }
         return super.onOptionsItemSelected(item)
@@ -61,17 +58,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 
-        if(!displayOverflowMenu){
-            displayOverflowMenu = true
-            return false
-        }else {
+        if(displayOverflowMenu){
+            displayOverflowMenu = false
             return true
+        }else {
+            return false
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.main_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    private fun setActionBar() {
+
+        val actionBar = supportActionBar
+        actionBar?.elevation = 15.0F
+        var colorDrawable = ColorDrawable(Color.parseColor("#191919"))
+        actionBar?.setBackgroundDrawable(colorDrawable)
+        actionBar?.setDisplayShowTitleEnabled(false)
     }
 
 }
