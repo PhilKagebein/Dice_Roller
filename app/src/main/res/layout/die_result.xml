@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:layout_gravity="center"
-    android:background="@color/LABlack"
+    android:background="?attr/backColor"
     android:id="@+id/dieResults"
     >
 
@@ -18,7 +18,7 @@
         android:scaleType="centerInside"
         android:layout_marginVertical="15dp"
         app:srcCompat="@drawable/d6_1"
-        android:background="@color/LABlack"
+        android:background="?attr/backColor"
     />
 
 </LinearLayout>

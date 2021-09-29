@@ -42,7 +42,6 @@ class HomeFragment: Fragment() {
         binding.btnRollDice.setOnClickListener {
             rollDice(howMany, whatType)
             vibratePhone()
-
         }
 
 //        darkMode.setOnPreferenceChangeListener()
