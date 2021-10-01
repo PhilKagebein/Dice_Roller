@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.diceroller_gridlayoutintro.R
@@ -17,6 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var displayOverflowMenu = true
+    private val viewModel: MainViewModel by lazy{
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -75,8 +79,8 @@ class MainActivity : AppCompatActivity() {
 
         val actionBar = supportActionBar
         actionBar?.elevation = 15.0F
-        var colorDrawable = ColorDrawable(Color.parseColor("#191919"))
-        actionBar?.setBackgroundDrawable(colorDrawable)
+        actionBar?.setBackgroundDrawable(viewModel.pickActionBarColor())
+        //could make a fun to just return false. Is necessary?
         actionBar?.setDisplayShowTitleEnabled(false)
     }
 

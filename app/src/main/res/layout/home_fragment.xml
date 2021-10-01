@@ -36,7 +36,7 @@
         android:gravity="center"
         android:text="@string/how_many_dice"
         android:textColor="?attr/txtColor"
-        android:textSize="25sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnRollDice"
         app:layout_constraintStart_toStartOf="@+id/btnRollDice" />
     <Spinner
@@ -61,7 +61,7 @@
         android:gravity="center_horizontal"
         android:text="@string/what_type_of_dice"
         android:textColor="?attr/txtColor"
-        android:textSize="25sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnRollDice"
         app:layout_constraintEnd_toEndOf="@+id/btnRollDice" />
     <Spinner
