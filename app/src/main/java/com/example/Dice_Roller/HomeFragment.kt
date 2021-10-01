@@ -11,6 +11,7 @@ import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.diceroller_gridlayoutintro.R
@@ -22,11 +23,17 @@ class HomeFragment: Fragment() {
     //**Can save this chat for later*** Originally dieLIst set using the safe call operator and defined as null. Was getting fucky results though when adding results to dieList down in the setDiceList function. Don't know why
     private var dieList: ArrayList<DieModel> = ArrayList()
     private lateinit var binding: HomeFragmentBinding
+    private val homeViewModel: HomeFragViewModel by lazy{
+       ViewModelProvider(this)[HomeFragViewModel::class.java]
+    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         checkThemeMode()
         binding = HomeFragmentBinding.inflate(inflater, container, false )
+
+       // binding.homeviewmodel = homeViewModel
+      //  binding.lifecycleOwner = this
 
         return binding.root
     }
@@ -44,22 +51,14 @@ class HomeFragment: Fragment() {
             vibratePhone()
         }
 
-//        darkMode.setOnPreferenceChangeListener()
-//        reference.OnPreferenceChangeListener(darkMode)
+        //worth putting these into a function?
+        var spinnerHowMany = bindSpinners(1)
+        spinnerHowMany = initSpinners(spinnerHowMany, homeViewModel.getHowManyStrArray(resources))
 
+        var spinnerDiceType = bindSpinners(2)
+        spinnerDiceType = initSpinners(spinnerDiceType, homeViewModel.getDiceTypeStrArray(resources))
 
-//        val howManyStrArray = resources.getStringArray(R.array.saHowManyDice)
-//        var spinnerHowMany = binding.spnHowManyDice
-//        spinnerHowMany = initSpinners(spinnerHowMany, howManyStrArray)
-//        spinnerHowMany.setSelection(0)
-//
-//        val diceTypeStrArray = resources.getStringArray(R.array.saDiceType)
-//        var spinnerDiceType = binding.spnDiceType
-//        spinnerDiceType = initSpinners(spinnerDiceType, diceTypeStrArray)
-//        spinnerDiceType.setSelection(1)
-
-        val spinnerHowMany = initHowManySpinner()
-        val spinnerDiceType = initWhatTypeSpinner()
+        setSpinnerSelections(spinnerHowMany, spinnerDiceType)
 
         spinnerHowMany.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             //Need explanation on what p0/AdapterView, p1/View, & rowId are doing
@@ -79,6 +78,19 @@ class HomeFragment: Fragment() {
             }
         }
 
+    }
+
+    private fun setSpinnerSelections(spinnerHowMany: Spinner, spinnerDiceType: Spinner) {
+        spinnerHowMany.setSelection(0)
+        spinnerDiceType.setSelection(1)
+    }
+
+    private fun bindSpinners(spinnerNumber: Int): Spinner {
+        if (spinnerNumber == 1) {
+            return binding.spnHowManyDice
+        } else {
+            return binding.spnDiceType
+        }
     }
 
     private fun checkThemeMode(){
@@ -120,31 +132,11 @@ class HomeFragment: Fragment() {
         return dieList
     }
 
-//    private fun initSpinners(spinner: Spinner, strArray: Array<String>): Spinner {
-//
-//        spinner.adapter = ArrayAdapter(requireContext(), R.layout.spinner_items, strArray)
-//        return spinner
-//
-//    }
+    private fun initSpinners(spinner: Spinner, strArray: Array<String>): Spinner {
 
-    private fun initHowManySpinner(): Spinner {
+        spinner.adapter = ArrayAdapter(requireContext(), R.layout.spinner_items, strArray)
+        return spinner
 
-        val howManyStrArray = resources.getStringArray(R.array.saHowManyDice)
-        val spinnerHowMany = binding.spnHowManyDice
-        spinnerHowMany.adapter = ArrayAdapter(requireContext(), R.layout.spinner_items, howManyStrArray)
-        spinnerHowMany.setSelection(0)
-
-        return spinnerHowMany
-    }
-
-    private fun initWhatTypeSpinner(): Spinner {
-
-        val diceTypeStrArray = resources.getStringArray(R.array.saDiceType)
-        val spinnerDiceType = binding.spnDiceType
-        spinnerDiceType.adapter = ArrayAdapter(requireContext(), R.layout.spinner_items, diceTypeStrArray)
-        spinnerDiceType.setSelection(1)
-
-        return spinnerDiceType
     }
 
     private fun getDiceValues(howMany: Int, whatType: String): ArrayList<DieModel> {
