@@ -5,12 +5,16 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.example.diceroller_gridlayoutintro.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
+    private val settingsViewModel: SettingsFragViewModel by lazy{
+        ViewModelProvider(this)[SettingsFragViewModel::class.java]
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -27,11 +31,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
         val darkModeValue = sp.getBoolean("dark_mode", true)
 
-        if(!darkModeValue) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+        settingsViewModel.checkDarkModeStatus(darkModeValue)
+
         return true
     }
 

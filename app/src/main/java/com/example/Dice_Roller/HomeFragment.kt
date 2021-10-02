@@ -9,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
@@ -29,11 +28,10 @@ class HomeFragment: Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        checkThemeMode()
-        binding = HomeFragmentBinding.inflate(inflater, container, false )
+        val darkModeValue = checkThemeMode()
+        homeViewModel.setThemeMode(darkModeValue)
 
-       // binding.homeviewmodel = homeViewModel
-      //  binding.lifecycleOwner = this
+        binding = HomeFragmentBinding.inflate(inflater, container, false )
 
         return binding.root
     }
@@ -43,8 +41,8 @@ class HomeFragment: Fragment() {
 
         super.onCreate(savedInstanceState)
 
-        var howMany = 1
-        var whatType = "d6"
+        var howMany = homeViewModel.howMany
+        var whatType = homeViewModel.whatType
 
         binding.btnRollDice.setOnClickListener {
             rollDice(howMany, whatType)
@@ -63,7 +61,7 @@ class HomeFragment: Fragment() {
         spinnerHowMany.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             //Need explanation on what p0/AdapterView, p1/View, & rowId are doing
             override fun onItemSelected(howManyAdapterView: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
-                howMany = itemPosition + 1
+                howMany = homeViewModel.getHowMany(itemPosition)
             }
 
             override fun onNothingSelected(howManyAdapterView: AdapterView<*>?) {
@@ -71,6 +69,7 @@ class HomeFragment: Fragment() {
         }
         spinnerDiceType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(diceTypeAdapterview: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
+                //can't put any of this in view model because it's taking spinnerDiceType correct?
                 whatType = getDiceType(itemPosition, spinnerDiceType)
             }
 
@@ -93,15 +92,10 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun checkThemeMode(){
-        val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        val darkModeValue = sp.getBoolean("dark_mode", true)
+    private fun checkThemeMode(): Boolean {
 
-        if(darkModeValue) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+        val sp = PreferenceManager.getDefaultSharedPreferences(context)
+        return sp.getBoolean("dark_mode", true)
 
     }
 
@@ -113,23 +107,15 @@ class HomeFragment: Fragment() {
 
     private fun rollDice(howMany: Int, whatType: String) {
 
-        dieList = ArrayList()
-        binding.tvSum.text = ""
+        binding.tvSum.text = homeViewModel.resetSumText()
 
-        dieList = getDiceValues(howMany, whatType)
-        binding.tvSum.visibility = setSumVisibility(howMany, whatType)
-        //Google requireContext()
+        dieList = homeViewModel.getDiceValues(resources, howMany, whatType)
+        binding.tvSum.append(homeViewModel.returnSumText())
+        binding.tvSum.visibility = homeViewModel.setSumVisibility(howMany, whatType)
         binding.rvDieResults.adapter = DieResultAdapter(requireContext(), dieList)
 
         setRecyclerView(dieList)
 
-    }
-
-    private fun setDiceList(diceValue: Int, diceTypeInt: Int): ArrayList<DieModel> {
-
-        dieList.add(DieModel(resources.getIdentifier("d${diceTypeInt}_$diceValue", "drawable", requireContext().packageName), "d${diceTypeInt}_+$diceValue"))
-
-        return dieList
     }
 
     private fun initSpinners(spinner: Spinner, strArray: Array<String>): Spinner {
@@ -139,41 +125,15 @@ class HomeFragment: Fragment() {
 
     }
 
-    private fun getDiceValues(howMany: Int, whatType: String): ArrayList<DieModel> {
-
-        var sum = 0
-        val whatTypeInt: Int = whatType.substring(1).toInt()
-        for (i in 1..howMany) {
-            val diceValue = (1..whatTypeInt).random()
-            dieList = setDiceList(diceValue, whatTypeInt)
-            sum = calculateSum(sum, diceValue)
-        }
-        binding.tvSum.append("Sum: $sum")
-        return dieList
-    }
-
-    private fun setSumVisibility(howMany: Int, whatType: String): Int {
-        if (howMany == 0 || howMany == 1 || whatType == "") {
-            return View.GONE
-        } else {
-            return View.VISIBLE
-        }
-    }
-
     private fun setRecyclerView(dieList: ArrayList<DieModel>){
 
         val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        //can I put DiceSpanLookup() into the view model? How does referencing a class from another class work?
         gridLayoutManager.spanSizeLookup = DiceSpanLookup(dieList)
         binding.rvDieResults.layoutManager = gridLayoutManager
     }
 
-    private fun calculateSum(sum: Int, diceValue: Int): Int {
-
-        var sumDummy = sum
-        sumDummy += diceValue
-        return sumDummy
-    }
-
+  //should this go in view model? I feel like no because it's dependent on the vibrator object.
     @RequiresApi(Build.VERSION_CODES.S)
     fun vibratePhone() {
         //Is this best practice to have the function in the if statement? Or should i pull it out and set a variable equal to the return of the function and then use the variable in the if?
@@ -188,11 +148,13 @@ class HomeFragment: Fragment() {
         }
     }
 
+    //Should this go in the view model? I feel like no.
     private fun loadVibrateSetting(): Boolean {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
         return sp.getBoolean("vibrate", true)
     }
 
+    //Should this go in the view Model? If I move the "when(dieListSize)" chunk to the view model, then I would have to pass homeViewModel to the class and getSpanSize, which would mean it's no longer override the abstract function
     class DiceSpanLookup(dieList: ArrayList<DieModel>): GridLayoutManager.SpanSizeLookup() {
 
         private var dieListSize = dieList.size
