@@ -8,6 +8,7 @@ import androidx.preference.PreferenceFragmentCompat
 import com.example.diceroller_gridlayoutintro.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
+
     private val settingsViewModel: SettingsFragViewModel by lazy{
         ViewModelProvider(this)[SettingsFragViewModel::class.java]
     }
@@ -30,8 +31,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         return true
     }
-
-
 
 }
 
