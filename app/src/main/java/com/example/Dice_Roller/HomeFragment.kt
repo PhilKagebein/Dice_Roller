@@ -138,27 +138,6 @@ class HomeFragment: Fragment() {
         }
     }
 
-    //Break this off into its own class later.
-    class DiceSpanLookup(dieList: ArrayList<DieModel>): GridLayoutManager.SpanSizeLookup() {
-
-        private var dieListSize = dieList.size
-
-        override fun getSpanSize(position: Int): Int {
-
-            when(dieListSize) {
-                4, 6 -> {return 1}
-                5 -> {
-                    if(position == 2){
-                        return 2
-                    }else {
-                        return 1
-                    }
-                }
-            }
-            return 2
-        }
-    }
-
     companion object{
         const val SPN_HOW_MANY_SELECTION = 0
         const val SPN_WHAT_TYPE_SELECTION = 1
