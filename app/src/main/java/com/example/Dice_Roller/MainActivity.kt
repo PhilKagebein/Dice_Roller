@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.diceroller_gridlayoutintro.R
 import com.example.diceroller_gridlayoutintro.databinding.ActivityMainBinding
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -75,11 +74,14 @@ class MainActivity : AppCompatActivity() {
 
         val actionBar = supportActionBar
         //make this a companion object
-        actionBar?.elevation = 15.0F
+        actionBar?.elevation = ACTIONBAR_ELEVATION
         actionBar?.setBackgroundDrawable(viewModel.pickActionBarColor())
         actionBar?.setDisplayShowTitleEnabled(false)
     }
 
+    companion object{
+        const val ACTIONBAR_ELEVATION = 15.0F
+    }
 }
 
 
