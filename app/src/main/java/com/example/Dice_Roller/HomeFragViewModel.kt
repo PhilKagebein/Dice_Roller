@@ -39,13 +39,6 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
         }
     }
 
-    //don't make this a function
-    private fun calculateSum(diceValue: Int): Int {
-
-        sum += diceValue
-        return sum
-    }
-
     fun populateDiceList(howMany: Int, whatType: String): ArrayList<DieModel> {
 
         var dieList = ArrayList<DieModel>()
@@ -54,7 +47,7 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
         for (i in 1..howMany) {
             val diceValue = (1..whatTypeInt).random()
             dieList.add(getDiceModel(diceValue, whatTypeInt))
-            sum = calculateSum(diceValue)
+            sum += diceValue
         }
 
         return dieList
