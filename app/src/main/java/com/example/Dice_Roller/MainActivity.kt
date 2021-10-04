@@ -27,10 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         setActionBar()
 
-// both options work
-//        val navController = Navigation.findNavController(this,R.id.main_fragment)
-//        NavigationUI.setupActionBarWithNavController(this, navController)
-      setupActionBarWithNavController(findNavController(R.id.main_fragment))
+        setupActionBarWithNavController(findNavController(R.id.main_fragment))
 
     }
 
@@ -57,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    // move this to settingfragment
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 
         if(displayOverflowMenu){
@@ -77,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar?.elevation = 15.0F
         actionBar?.setBackgroundDrawable(viewModel.pickActionBarColor())
-        //could make a fun to just return false. Is necessary?
         actionBar?.setDisplayShowTitleEnabled(false)
     }
 
