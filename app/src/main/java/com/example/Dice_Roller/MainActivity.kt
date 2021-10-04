@@ -45,9 +45,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.settings -> {
                 displayOverflowMenu = false
-                invalidateOptionsMenu()
                 findNavController(R.id.main_fragment).navigate(R.id.navigateToSettingsFragment)
-                displayOverflowMenu = true
                 invalidateOptionsMenu()
             }
         }
@@ -61,11 +59,14 @@ class MainActivity : AppCompatActivity() {
             displayOverflowMenu = false
             return true
         }else {
+            displayOverflowMenu = true
             return false
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        displayOverflowMenu = true
+        invalidateOptionsMenu()
         val navController = findNavController(R.id.main_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
@@ -73,6 +74,7 @@ class MainActivity : AppCompatActivity() {
     private fun setActionBar() {
 
         val actionBar = supportActionBar
+        //make this a companion object
         actionBar?.elevation = 15.0F
         actionBar?.setBackgroundDrawable(viewModel.pickActionBarColor())
         actionBar?.setDisplayShowTitleEnabled(false)

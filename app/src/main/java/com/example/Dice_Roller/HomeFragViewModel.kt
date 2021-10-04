@@ -39,6 +39,9 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
         }
     }
 
+    // @@@ktg there's probably a way to not use substring (as in, refactor how some code works
+    // so that you don't need to do an operation that grabs part of a different value).
+    // Using hard-coded indices should set off warning bells: it's fragile and usually not best practice.
     fun populateDiceList(howMany: Int, whatType: String): ArrayList<DieModel> {
 
         var dieList = ArrayList<DieModel>()
@@ -53,6 +56,8 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
         return dieList
     }
 
+    // @@@ktg look into using strings.xml for your strings
+    // Relatedly, use dimens.xml for dimensions you have in your layouts
     fun returnSumText() : String {
         return "Sum: $sum"
     }
