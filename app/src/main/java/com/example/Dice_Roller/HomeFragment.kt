@@ -1,6 +1,5 @@
 package com.example.Dice_Roller
 
-import android.content.Context
 import android.os.*
 import android.view.LayoutInflater
 import android.view.View
@@ -43,7 +42,7 @@ class HomeFragment: Fragment() {
 
         binding.btnRollDice.setOnClickListener {
             rollDice(howMany, whatType)
-            vibratePhone()
+            homeViewModel.vibratePhone()
         }
 
         //worth putting these into a function?
@@ -98,7 +97,7 @@ class HomeFragment: Fragment() {
 
         binding.tvSum.text = homeViewModel.resetSumText()
 
-        var dieList: ArrayList<DieModel> = homeViewModel.populateDiceList(howMany, whatType)
+        val dieList: ArrayList<DieModel> = homeViewModel.populateDiceList(howMany, whatType)
         binding.tvSum.append(homeViewModel.returnSumText())
         binding.tvSum.visibility = homeViewModel.setSumVisibility(howMany, whatType)
         binding.rvDieResults.adapter = DieResultAdapter(requireContext(), dieList)
@@ -108,10 +107,8 @@ class HomeFragment: Fragment() {
     }
 
     private fun initSpinners(spinner: Spinner, strArray: Array<String>): Spinner {
-
         spinner.adapter = ArrayAdapter(requireContext(), R.layout.spinner_items, strArray)
         return spinner
-
     }
 
     private fun setRecyclerView(dieList: ArrayList<DieModel>){
@@ -119,23 +116,6 @@ class HomeFragment: Fragment() {
         val gridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         gridLayoutManager.spanSizeLookup = DiceSpanLookup(dieList)
         binding.rvDieResults.layoutManager = gridLayoutManager
-    }
-
-  //should this go in view model? I feel like no because it's dependent on the vibrator object.
-    @RequiresApi(Build.VERSION_CODES.S)
-    fun vibratePhone() {
-        //Is this best practice to have the function in the if statement? Or should i pull it out and set a variable equal to the return of the function and then use the variable in the if?
-        if (homeViewModel.loadVibrateSetting()) {
-            val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
-
-            vibrator?.vibrate(100)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
-            } else {
-                vibrator?.vibrate(100)
-            }
-        }
     }
 
     companion object{

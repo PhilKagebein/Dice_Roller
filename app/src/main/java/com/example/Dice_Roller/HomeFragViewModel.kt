@@ -1,8 +1,13 @@
 package com.example.Dice_Roller
 
 import android.app.Application
+import android.content.Context
 import android.content.res.Resources
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.preference.PreferenceManager
@@ -44,7 +49,7 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
     // Using hard-coded indices should set off warning bells: it's fragile and usually not best practice.
     fun populateDiceList(howMany: Int, whatType: String): ArrayList<DieModel> {
 
-        var dieList = ArrayList<DieModel>()
+        val dieList = ArrayList<DieModel>()
         sum = 0
         val whatTypeInt: Int = whatType.substring(1).toInt()
         for (i in 1..howMany) {
@@ -74,7 +79,7 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
         }
     }
 
-    fun loadVibrateSetting(): Boolean {
+    private fun loadVibrateSetting(): Boolean {
         val sp = PreferenceManager.getDefaultSharedPreferences(getApplication())
         return sp.getBoolean("vibrate", true)
     }
@@ -82,6 +87,22 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
     fun checkThemeMode(): Boolean {
         val sp = PreferenceManager.getDefaultSharedPreferences(getApplication())
         return sp.getBoolean("dark_mode", true)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun vibratePhone() {
+        //Is this best practice to have the function in the if statement? Or should i pull it out and set a variable equal to the return of the function and then use the variable in the if?
+        if (loadVibrateSetting()) {
+            val vibrator = getApplication<Application>().getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+
+            vibrator?.vibrate(100)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                vibrator?.vibrate(100)
+            }
+        }
     }
 
 }
