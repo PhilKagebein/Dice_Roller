@@ -1,12 +1,9 @@
 package com.example.Dice_Roller
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var displayOverflowMenu = true
     private val viewModel: MainViewModel by lazy{
-        ViewModelProvider(this).get(MainViewModel::class.java)
+        ViewModelProvider(this)[MainViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,10 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         setActionBar()
 
-// both options work
-//        val navController = Navigation.findNavController(this,R.id.main_fragment)
-//        NavigationUI.setupActionBarWithNavController(this, navController)
-      setupActionBarWithNavController(findNavController(R.id.main_fragment))
+        setupActionBarWithNavController(findNavController(R.id.main_fragment))
 
     }
 
@@ -60,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    // move this to settingfragment
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 
         if(displayOverflowMenu){
@@ -80,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar?.elevation = 15.0F
         actionBar?.setBackgroundDrawable(viewModel.pickActionBarColor())
-        //could make a fun to just return false. Is necessary?
         actionBar?.setDisplayShowTitleEnabled(false)
     }
 
