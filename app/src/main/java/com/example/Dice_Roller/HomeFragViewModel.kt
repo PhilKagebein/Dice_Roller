@@ -10,8 +10,6 @@ import com.example.diceroller_gridlayoutintro.R
 
 class HomeFragViewModel(application: Application, private val resources: Resources) : AndroidViewModel(application) {
 
-    //make this not a class level variable
-    private var dieList: ArrayList<DieModel> = ArrayList()
     var howMany = 1
     var whatType = "d6"
     var sum = 0
@@ -28,11 +26,9 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
         return itemPosition + 1
     }
 
-    private fun setDiceList(diceValue: Int, diceTypeInt: Int): ArrayList<DieModel> {
+    private fun getDiceModel(diceValue: Int, diceTypeInt: Int): DieModel {
     //is there another way to get package names and remove getApplication()
-        dieList.add(DieModel(resources.getIdentifier("d${diceTypeInt}_$diceValue", "drawable", getApplication<Application>().packageName), "d${diceTypeInt}_+$diceValue"))
-
-        return dieList
+    return DieModel(resources.getIdentifier("d${diceTypeInt}_$diceValue", "drawable", getApplication<Application>().packageName), "d${diceTypeInt}_+$diceValue")
     }
 
     fun setSumVisibility(howMany: Int, whatType: String): Int {
@@ -50,14 +46,14 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
         return sum
     }
 
-    fun getDiceValues(howMany: Int, whatType: String): ArrayList<DieModel> {
+    fun populateDiceList(howMany: Int, whatType: String): ArrayList<DieModel> {
 
-        dieList = ArrayList()
+        var dieList = ArrayList<DieModel>()
         sum = 0
         val whatTypeInt: Int = whatType.substring(1).toInt()
         for (i in 1..howMany) {
             val diceValue = (1..whatTypeInt).random()
-            dieList = setDiceList(diceValue, whatTypeInt)
+            dieList.add(getDiceModel(diceValue, whatTypeInt))
             sum = calculateSum(diceValue)
         }
 
