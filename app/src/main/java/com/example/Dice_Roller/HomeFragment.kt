@@ -98,7 +98,7 @@ class HomeFragment: Fragment() {
 
         binding.tvSum.text = homeViewModel.resetSumText()
 
-        var dieList: ArrayList<DieModel> = homeViewModel.getDiceValues(howMany, whatType)
+        var dieList: ArrayList<DieModel> = homeViewModel.populateDiceList(howMany, whatType)
         binding.tvSum.append(homeViewModel.returnSumText())
         binding.tvSum.visibility = homeViewModel.setSumVisibility(howMany, whatType)
         binding.rvDieResults.adapter = DieResultAdapter(requireContext(), dieList)
