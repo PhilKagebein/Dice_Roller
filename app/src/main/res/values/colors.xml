@@ -4,7 +4,7 @@
     <color name="LAOffPurple">#83596D</color>
     <color name="LAOrange">#FF7954</color>
     <color name="LAOffOrange">#FFA086</color>
-    <color name="LABlack">#191919</color>
+    <color name="Black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="LAGray">#F9F9F9</color>
+
 </resources>

@@ -6,7 +6,6 @@
     android:textSize="21sp"
     android:gravity="center"
     android:textColor="?attr/txtColor"
-    android:background="?attr/backColor"
     android:backgroundTint="?attr/backColor"
     android:paddingHorizontal="10dp"
     android:id="@+id/spinner_items"
