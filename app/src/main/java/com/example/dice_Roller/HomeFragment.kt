@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.dice_Roller.databinding.HomeFragmentBinding
@@ -75,7 +74,7 @@ class HomeFragment: Fragment() {
             }
         }
 
-        homeViewModel.dieListLive.observe(viewLifecycleOwner, Observer { it ->
+        homeViewModel.dieListLive.observe(viewLifecycleOwner, {
             binding.rvDieResults.adapter = DieResultAdapter(requireContext(), it)
             setRecyclerView(it)
         })

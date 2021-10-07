@@ -64,7 +64,7 @@ class HomeFragViewModel(private val app: Application, private val resources: Res
 
     var sumString: LiveData<String> = sumInt.map { resources.getString(R.string.sum_text, it) }
     var sumTextVisibility: LiveData<Int> =
-        wasRollBtnPressed.map { _ ->
+        wasRollBtnPressed.map {
             if (howMany == 1) {
                 View.GONE
             } else {
