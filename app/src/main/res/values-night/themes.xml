@@ -21,41 +21,21 @@
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-
-<!--        <item name="actionBarItemBackground" tools:targetApi="l">?attr/backColor</item>-->
-<!--        <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle</item>-->
-<!--        <item name="drawerArrowStyle">@style/ActionBarArrow</item>-->
-<!--        <item name="android:actionOverflowButtonStyle">@style/OverflowButtonStyle</item>-->
+        <item name="drawerArrowStyle">@style/ActionBarArrow</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
 
     </style>
 
-<!--    <style name="ActionBarArrow" parent="Widget.AppCompat.DrawerArrowToggle">-->
-<!--        <item name="color">?attr/txtColor</item>-->
-<!--    </style>-->
+        <style name="ActionBarArrow" parent="Widget.AppCompat.DrawerArrowToggle">
+            <item name="color">?attr/txtColor</item>
+        </style>
 
-<!--    <style name="OverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">-->
-<!--        <item name="tint">?attr/txtColor</item>-->
-<!--        <item name="android:itemBackground">?attr/backColor</item>-->
-<!--    </style>-->
+    <style name="OverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="tint">?attr/txtColor</item>
+    </style>
 
 </resources>
 
-<!--    <style name="OverflowMenuStyle" parent="Widget.AppCompat.ActionButton.Overflow">-->
-<!--        <item name="android:itemBackground">?attr/backColor</item>-->
-<!--        <item name="background">?attr/backColor</item>-->
-<!--    </style>-->
-
-
-
-
-
-
-<!--        &lt;!&ndash;Sets action bar background color & the background on the overflow menu items&ndash;&gt;-->
-<!--        <item name="android:background">@color/Black</item>-->
-
-<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
-<!--    </style>-->
-<!--Sets Color for back arrow on action bar-->
 
 
 

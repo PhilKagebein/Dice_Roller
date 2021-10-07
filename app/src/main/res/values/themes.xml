@@ -21,15 +21,12 @@
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="actionBarItemBackground" tools:targetApi="l">?attr/backColor</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
-        <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
         <item name="drawerArrowStyle">@style/ActionBarArrow</item>
 
 <!--Sets action bar background color & the background on the overflow menu items-->
         <item name="android:background">@color/white</item>
 
-        <!-- Customize your theme here. -->
     </style>
 <!--Sets color for back arrow on action bar-->
     <style name="ActionBarArrow" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -40,12 +37,5 @@
         <item name="tint">?attr/txtColor</item>
         <item name="android:itemBackground">?attr/backColor</item>
     </style>
-
-    <style name="OverflowMenuStyle" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:itemBackground">?attr/backColor</item>
-        <item name="background">?attr/backColor</item>
-    </style>
-
-
 
 </resources>
