@@ -1,4 +1,4 @@
-package com.example.Dice_Roller
+package com.example.dice_Roller
 
 import androidx.recyclerview.widget.GridLayoutManager
 

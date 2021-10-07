@@ -1,11 +1,10 @@
-package com.example.Dice_Roller
+package com.example.dice_Roller
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.example.diceroller_gridlayoutintro.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
 

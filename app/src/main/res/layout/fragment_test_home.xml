@@ -3,7 +3,7 @@
 
     <data>
         <variable
-            name="homeviewmodel"
+            name="testviewmodel"
             type="com.example.dice_Roller.HomeFragViewModel" />
 
     </data>
@@ -88,12 +88,12 @@
 
         <!--Sum textview-->
         <TextView
-            android:id="@+id/tvSum"
+            android:id="@+id/tvTestSum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:textColor="?attr/txtColor"
-            android:text="@{homeviewmodel.sum}"
+            android:text="@{testviewmodel.sum.toString()}"
             android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@+id/tvHowManyDice"
             app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +108,7 @@
             android:layout_marginVertical="10dp"
             android:verticalSpacing="25dp"
             tools:listitem="@layout/die_result"
-            app:layout_constraintBottom_toTopOf="@+id/tvSum"
+            app:layout_constraintBottom_toTopOf="@+id/tvTestSum"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

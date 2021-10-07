@@ -1,4 +1,4 @@
-package com.example.Dice_Roller
+package com.example.dice_Roller
 
 import android.os.*
 import android.view.LayoutInflater
@@ -8,12 +8,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.diceroller_gridlayoutintro.R
-import com.example.diceroller_gridlayoutintro.databinding.HomeFragmentBinding
-import kotlin.collections.ArrayList
+import com.example.dice_Roller.databinding.HomeFragmentBinding
 
 
 class HomeFragment: Fragment() {
@@ -22,13 +22,16 @@ class HomeFragment: Fragment() {
     private lateinit var homeViewModel: HomeFragViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
+        //binding = HomeFragmentBinding.inflate(inflater, container, false)
         initViewModel()
 
         val darkModeValue = homeViewModel.checkThemeMode()
         homeViewModel.setThemeMode(darkModeValue)
 
-        binding = HomeFragmentBinding.inflate(inflater, container, false )
+        binding.homeviewmodel = homeViewModel
+        binding.lifecycleOwner = this
+
 
         return binding.root
     }
@@ -37,40 +40,44 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        var howMany = homeViewModel.howMany
-        var whatType = homeViewModel.whatType
+         var howMany = homeViewModel.howMany.value
+         var whatType = homeViewModel.whatType.value
 
-        binding.btnRollDice.setOnClickListener {
-            rollDice(howMany, whatType)
-            homeViewModel.vibratePhone()
-        }
+           binding.btnRollDice.setOnClickListener {
+               //need to lookup .let call
+               whatType?.let { it1 -> howMany?.let { it2 -> rollDice(it2, it1) } }
+               homeViewModel.vibratePhone()
+           }
 
-        //worth putting these into a function?
-        var spinnerHowMany = binding.spnHowManyDice
-        spinnerHowMany = initSpinners(spinnerHowMany, homeViewModel.getHowManyStrArray())
+           //worth putting these into a function?
+           var spinnerHowMany = binding.spnHowManyDice
+           spinnerHowMany = initSpinners(spinnerHowMany, homeViewModel.getHowManyStrArray())
 
-        var spinnerDiceType = binding.spnDiceType
-        spinnerDiceType = initSpinners(spinnerDiceType, homeViewModel.getDiceTypeStrArray())
+           var spinnerDiceType = binding.spnDiceType
+           spinnerDiceType = initSpinners(spinnerDiceType, homeViewModel.getDiceTypeStrArray())
 
-        setSpinnerSelections(spinnerHowMany, spinnerDiceType)
+           setSpinnerSelections(spinnerHowMany, spinnerDiceType)
 
-        spinnerHowMany.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(howManyAdapterView: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
-                howMany = homeViewModel.getHowMany(itemPosition)
-            }
+           spinnerHowMany.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+               override fun onItemSelected(howManyAdapterView: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
+                   howMany = homeViewModel.getHowMany(itemPosition)
+               }
 
-            override fun onNothingSelected(howManyAdapterView: AdapterView<*>?) {
-            }
-        }
-        spinnerDiceType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(diceTypeAdapterview: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
+               override fun onNothingSelected(howManyAdapterView: AdapterView<*>?) {
+               }
+           }
+           spinnerDiceType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+               override fun onItemSelected(diceTypeAdapterview: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
 
-                whatType = getDiceType(itemPosition, spinnerDiceType)
-            }
+                   val strArray = resources.getStringArray(R.array.saDiceType)
+                   whatType = homeViewModel.getDiceTypeString(itemPosition, strArray)
 
-            override fun onNothingSelected(diceTypeAdapterView: AdapterView<*>?) {
-            }
-        }
+                   //whatType = getDiceType(itemPosition, spinnerDiceType)
+               }
+
+               override fun onNothingSelected(diceTypeAdapterView: AdapterView<*>?) {
+               }
+           }
 
     }
 
@@ -87,18 +94,22 @@ class HomeFragment: Fragment() {
         spinnerDiceType.setSelection(SPN_WHAT_TYPE_SELECTION)
     }
 
-    fun getDiceType(position: Int, spinnerDiceType: Spinner): String {
+ /*   fun getDiceType(position: Int, spinnerDiceType: Spinner): String {
 
         return spinnerDiceType.getItemAtPosition(position).toString()
 
-    }
+    }*/
 
     private fun rollDice(howMany: Int, whatType: String) {
 
         binding.tvSum.text = homeViewModel.resetSumText()
 
         val dieList: ArrayList<DieModel> = homeViewModel.populateDiceList(howMany, whatType)
-        binding.tvSum.append(homeViewModel.returnSumText())
+        homeViewModel.sum.observe(viewLifecycleOwner, Observer { localSum ->
+            binding.tvSum.text = getString(R.string.sum_text, localSum)
+        })
+
+        //binding.tvSum.append(homeViewModel.returnSumText())
         binding.tvSum.visibility = homeViewModel.setSumVisibility(howMany, whatType)
         binding.rvDieResults.adapter = DieResultAdapter(requireContext(), dieList)
 

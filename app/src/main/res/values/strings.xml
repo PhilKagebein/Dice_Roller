@@ -4,6 +4,7 @@
     <string name="roll">Roll</string>
     <string name="how_many_dice">How many</string>
     <string name="what_type_of_dice">Dice type</string>
+    <string name="sum_text">Sum: %1$d</string>
 
 
     <string-array name="saHowManyDice">
@@ -32,7 +33,6 @@
     <string name="vibrate_off">Phone will not vibrate when roll button is pressed</string>
     <string name="dark_mode">Dark mode</string>
     <string name="topbar_settings">Settings</string>
-
 
 
 </resources>
