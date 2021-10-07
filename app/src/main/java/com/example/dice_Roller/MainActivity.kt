@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.settings -> {
                 displayOverflowMenu = false
-                findNavController(R.id.main_fragment).navigate(R.id.action_testHomeFragment_to_settingsFragment)
+                findNavController(R.id.main_fragment).navigate(R.id.navigateToSettingsFragment)
                 invalidateOptionsMenu()
             }
         }

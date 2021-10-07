@@ -17,10 +17,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val darkMode = findPreference<Preference>("dark_mode")
         darkMode?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener {
-                darkMode, _ -> changeThemeMode()
+                _, _ -> changeThemeMode()
         }
-
-        }
+    }
 
     @SuppressLint("ResourceType")
     private fun changeThemeMode(): Boolean{

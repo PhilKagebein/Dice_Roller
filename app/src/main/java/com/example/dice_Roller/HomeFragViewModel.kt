@@ -9,31 +9,23 @@ import android.os.Vibrator
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 
-class HomeFragViewModel(application: Application, private val resources: Resources) : AndroidViewModel(application) {
-//hey change this so I don't have to use AndroidViewModel
+class HomeFragViewModel(private val app: Application, private val resources: Resources) : ViewModel() {
 
-    private val _howMany = MutableLiveData<Int>(1)
-    val howMany: LiveData<Int>
-        get() = _howMany
+    val wasRollBtnPressed = MutableLiveData(false)
+    var dieListLive = MutableLiveData<ArrayList<DieModel>>()
+    private val sumInt = MutableLiveData(0)
+    var howMany = 1
+    val whatType = "d6"
 
-    private val _whatType = MutableLiveData<String>("d6")
-    val whatType: LiveData<String>
-        get() = _whatType
+    //what is the difference between the line below and creating an instance of an abstract class? Why can I do below but not lines 27/28
+//    val whatType: LiveData<String>
+//        get() = _whatType
 
- /*   val whatType = thingIDependOn.map {
-        //stuff
-        value
-    }*/
-
-    //Could move _sum into fun populateDiceList() but does livedata need to be a member variable?
-    private val _sum = MutableLiveData(0)
-    val sum: LiveData<Int>
-        get() = _sum
+    //Can't do below because LiveData is an abstract class. Cannot create an instance/object of an abstract class
+//    var sumString = LiveData<String>("")
 
     fun getHowManyStrArray(): Array<String> {
         return resources.getStringArray(R.array.saHowManyDice)
@@ -43,55 +35,41 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
         return resources.getStringArray(R.array.saDiceType)
     }
 
-    fun getHowMany(itemPosition: Int): Int? {
-        _howMany.value = itemPosition + 1
-        return howMany.value
+    fun getHowMany(itemPosition: Int): Int {
+        howMany = itemPosition + 1
+        return howMany
     }
 
     private fun getDiceModel(diceValue: Int, diceTypeInt: Int): DieModel {
-    //is there another way to get package names and remove getApplication()
-    return DieModel(resources.getIdentifier("d${diceTypeInt}_$diceValue", "drawable", getApplication<Application>().packageName), "d${diceTypeInt}_+$diceValue")
+        return DieModel(resources.getIdentifier("d${diceTypeInt}_$diceValue", "drawable", app.packageName), "d${diceTypeInt}_+$diceValue")
     }
-
-    fun setSumVisibility(howMany: Int, whatType: String): Int {
-        if (howMany == 0 || howMany == 1 || whatType == "") {
-            return View.GONE
-        } else {
-            return View.VISIBLE
-        }
-    }
-
-    // dumbSum is just the number we want to display
-  /*  val sum = dumbSum.map { dumbSum ->
-        resources.getString(R.string.sum_text, dumbSum)
-    }*/
 
     // @@@ktg there's probably a way to not use substring (as in, refactor how some code works
     // so that you don't need to do an operation that grabs part of a different value).
     // Using hard-coded indices should set off warning bells: it's fragile and usually not best practice.
-    fun populateDiceList(howMany: Int, whatType: String): ArrayList<DieModel> {
+    fun populateDiceList(howMany: Int, whatType: String)/*: MutableLiveData<ArrayList<DieModel>> */{
 
-        val dieList = ArrayList<DieModel>()
-   /*     _sum.value = 0
-        val whatTypeInt: Int = whatType.substring(1).toInt()
+       val dieList = ArrayList<DieModel>()
+        sumInt.value = 0
+        val whatTypeInt = whatType.substring(1).toInt()
         for (i in 1..howMany) {
             val diceValue = (1..whatTypeInt).random()
             dieList.add(getDiceModel(diceValue, whatTypeInt))
-            //How do I do this
-            _sum.value = _sum.value!! + diceValue
-            //sum += diceValue
-        }*/
+            //How do I do this without bang bang
+            sumInt.value = sumInt.value!! + diceValue
+        }
+        dieListLive.postValue(dieList)
 
-        return dieList
     }
 
-    fun getDiceTypeString(itemPosition: Int, strArray: Array<String>): String? {
-        _whatType.value = strArray[itemPosition]
-        return whatType.value
-    }
-
-    fun resetSumText(): String {
-        return ""
+    var sumString: LiveData<String> = sumInt.map { resources.getString(R.string.sum_text, it) }
+    var sumTextVisibility: LiveData<Int> =
+        wasRollBtnPressed.map { _ ->
+            if (howMany == 1) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
     }
 
     fun setThemeMode(darkModeValue: Boolean) {
@@ -103,12 +81,12 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
     }
 
     private fun loadVibrateSetting(): Boolean {
-        val sp = PreferenceManager.getDefaultSharedPreferences(getApplication())
+        val sp = PreferenceManager.getDefaultSharedPreferences(app)
         return sp.getBoolean("vibrate", true)
     }
 
     fun checkThemeMode(): Boolean {
-        val sp = PreferenceManager.getDefaultSharedPreferences(getApplication())
+        val sp = PreferenceManager.getDefaultSharedPreferences(app)
         return sp.getBoolean("dark_mode", true)
     }
 
@@ -116,7 +94,7 @@ class HomeFragViewModel(application: Application, private val resources: Resourc
     fun vibratePhone() {
         //Is this best practice to have the function in the if statement? Or should i pull it out and set a variable equal to the return of the function and then use the variable in the if?
         if (loadVibrateSetting()) {
-            val vibrator = getApplication<Application>().getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+            val vibrator = app.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
 
             vibrator?.vibrate(100)
 

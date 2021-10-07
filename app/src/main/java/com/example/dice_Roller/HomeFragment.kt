@@ -8,13 +8,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.dice_Roller.databinding.HomeFragmentBinding
-
 
 class HomeFragment: Fragment() {
 
@@ -22,8 +20,7 @@ class HomeFragment: Fragment() {
     private lateinit var homeViewModel: HomeFragViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
-        //binding = HomeFragmentBinding.inflate(inflater, container, false)
+        binding = HomeFragmentBinding.inflate(inflater, container, false)
         initViewModel()
 
         val darkModeValue = homeViewModel.checkThemeMode()
@@ -32,7 +29,6 @@ class HomeFragment: Fragment() {
         binding.homeviewmodel = homeViewModel
         binding.lifecycleOwner = this
 
-
         return binding.root
     }
 
@@ -40,44 +36,49 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-         var howMany = homeViewModel.howMany.value
-         var whatType = homeViewModel.whatType.value
+        var howMany = homeViewModel.howMany
+        var whatType = homeViewModel.whatType
 
-           binding.btnRollDice.setOnClickListener {
-               //need to lookup .let call
-               whatType?.let { it1 -> howMany?.let { it2 -> rollDice(it2, it1) } }
-               homeViewModel.vibratePhone()
-           }
+        binding.btnRollDice.setOnClickListener {
+            //fix bang bang
+            homeViewModel.wasRollBtnPressed.postValue(!homeViewModel.wasRollBtnPressed.value!!)
+            homeViewModel.populateDiceList(howMany, whatType)
+            //rollDice(howMany, whatType)
+            homeViewModel.vibratePhone()
 
-           //worth putting these into a function?
-           var spinnerHowMany = binding.spnHowManyDice
-           spinnerHowMany = initSpinners(spinnerHowMany, homeViewModel.getHowManyStrArray())
+        }
 
-           var spinnerDiceType = binding.spnDiceType
-           spinnerDiceType = initSpinners(spinnerDiceType, homeViewModel.getDiceTypeStrArray())
+        //worth putting these into a function?
+        var spinnerHowMany = binding.spnHowManyDice
+        spinnerHowMany = initSpinners(spinnerHowMany, homeViewModel.getHowManyStrArray())
 
-           setSpinnerSelections(spinnerHowMany, spinnerDiceType)
+        var spinnerDiceType = binding.spnDiceType
+        spinnerDiceType = initSpinners(spinnerDiceType, homeViewModel.getDiceTypeStrArray())
 
-           spinnerHowMany.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-               override fun onItemSelected(howManyAdapterView: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
-                   howMany = homeViewModel.getHowMany(itemPosition)
-               }
+        setSpinnerSelections(spinnerHowMany, spinnerDiceType)
 
-               override fun onNothingSelected(howManyAdapterView: AdapterView<*>?) {
-               }
-           }
-           spinnerDiceType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-               override fun onItemSelected(diceTypeAdapterview: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
+        spinnerHowMany.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(howManyAdapterView: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
+                howMany = homeViewModel.getHowMany(itemPosition)
+            }
 
-                   val strArray = resources.getStringArray(R.array.saDiceType)
-                   whatType = homeViewModel.getDiceTypeString(itemPosition, strArray)
+            override fun onNothingSelected(howManyAdapterView: AdapterView<*>?) {
+            }
+        }
+        spinnerDiceType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(diceTypeAdapterview: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
 
-                   //whatType = getDiceType(itemPosition, spinnerDiceType)
-               }
+                whatType = getDiceType(itemPosition, spinnerDiceType)
+            }
 
-               override fun onNothingSelected(diceTypeAdapterView: AdapterView<*>?) {
-               }
-           }
+            override fun onNothingSelected(diceTypeAdapterView: AdapterView<*>?) {
+            }
+        }
+
+        homeViewModel.dieListLive.observe(viewLifecycleOwner, Observer { it ->
+            binding.rvDieResults.adapter = DieResultAdapter(requireContext(), it)
+            setRecyclerView(it)
+        })
 
     }
 
@@ -94,28 +95,11 @@ class HomeFragment: Fragment() {
         spinnerDiceType.setSelection(SPN_WHAT_TYPE_SELECTION)
     }
 
- /*   fun getDiceType(position: Int, spinnerDiceType: Spinner): String {
+       fun getDiceType(position: Int, spinnerDiceType: Spinner): String {
 
-        return spinnerDiceType.getItemAtPosition(position).toString()
+           return spinnerDiceType.getItemAtPosition(position).toString()
 
-    }*/
-
-    private fun rollDice(howMany: Int, whatType: String) {
-
-        binding.tvSum.text = homeViewModel.resetSumText()
-
-        val dieList: ArrayList<DieModel> = homeViewModel.populateDiceList(howMany, whatType)
-        homeViewModel.sum.observe(viewLifecycleOwner, Observer { localSum ->
-            binding.tvSum.text = getString(R.string.sum_text, localSum)
-        })
-
-        //binding.tvSum.append(homeViewModel.returnSumText())
-        binding.tvSum.visibility = homeViewModel.setSumVisibility(howMany, whatType)
-        binding.rvDieResults.adapter = DieResultAdapter(requireContext(), dieList)
-
-        setRecyclerView(dieList)
-
-    }
+       }
 
     private fun initSpinners(spinner: Spinner, strArray: Array<String>): Spinner {
         spinner.adapter = ArrayAdapter(requireContext(), R.layout.spinner_items, strArray)
