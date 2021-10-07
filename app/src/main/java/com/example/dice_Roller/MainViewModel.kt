@@ -9,7 +9,7 @@ class MainViewModel: ViewModel() {
 
     fun pickActionBarColor(): ColorDrawable {
 
-        return ColorDrawable(Color.parseColor("#191919"))
+        return ColorDrawable(Color.parseColor("#FF000000"))
 
     }
 

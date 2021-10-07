@@ -9,11 +9,11 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/LAOrange</item>
         <item name="colorSecondaryVariant">@color/LAOffOrange</item>
-        <item name="colorOnSecondary">@color/LABlack</item>
+        <item name="colorOnSecondary">@color/Black</item>
 
         <!--Attributes Here-->
-        <item name="backColor">@color/LAGray</item>
-        <item name="txtColor">@color/LABlack</item>
+        <item name="backColor">@color/white</item>
+        <item name="txtColor">@color/Black</item>
         <item name="primaryColor">@color/LAOrange</item>
         <item name="secondaryColor">@color/LAPurple</item>
         <item name="primaryColorVariant">@color/LAOffOrange</item>
@@ -27,7 +27,7 @@
         <item name="drawerArrowStyle">@style/ActionBarArrow</item>
 
 <!--Sets action bar background color & the background on the overflow menu items-->
-        <item name="android:background">@color/LAGray</item>
+        <item name="android:background">@color/white</item>
 
         <!-- Customize your theme here. -->
     </style>
