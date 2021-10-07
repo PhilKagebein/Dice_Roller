@@ -1,4 +1,4 @@
-package com.example.diceroller_gridlayoutintro
+package com.example.dice_Roller
 
 import org.junit.Test
 

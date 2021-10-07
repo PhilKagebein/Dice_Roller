@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.diceroller_gridlayoutintro">
+    package="com.example.dice_Roller">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DiceRollerGridLayoutIntro">
         <activity
-            android:name="com.example.Dice_Roller.MainActivity"
+            android:name="com.example.dice_Roller.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.Dice_Roller
+package com.example.dice_Roller
 
 import android.os.*
 import android.view.LayoutInflater
@@ -11,10 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.diceroller_gridlayoutintro.R
-import com.example.diceroller_gridlayoutintro.databinding.HomeFragmentBinding
-import kotlin.collections.ArrayList
-
+import com.example.dice_Roller.databinding.HomeFragmentBinding
 
 class HomeFragment: Fragment() {
 
@@ -22,13 +19,14 @@ class HomeFragment: Fragment() {
     private lateinit var homeViewModel: HomeFragViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
+        binding = HomeFragmentBinding.inflate(inflater, container, false)
         initViewModel()
 
         val darkModeValue = homeViewModel.checkThemeMode()
         homeViewModel.setThemeMode(darkModeValue)
 
-        binding = HomeFragmentBinding.inflate(inflater, container, false )
+        binding.homeviewmodel = homeViewModel
+        binding.lifecycleOwner = this
 
         return binding.root
     }
@@ -41,8 +39,12 @@ class HomeFragment: Fragment() {
         var whatType = homeViewModel.whatType
 
         binding.btnRollDice.setOnClickListener {
-            rollDice(howMany, whatType)
+            //fix bang bang
+            homeViewModel.wasRollBtnPressed.postValue(!homeViewModel.wasRollBtnPressed.value!!)
+            homeViewModel.populateDiceList(howMany, whatType)
+            //Ask aboout moving .vibratePhone() to viewModel later.
             homeViewModel.vibratePhone()
+
         }
 
         //worth putting these into a function?
@@ -72,6 +74,11 @@ class HomeFragment: Fragment() {
             }
         }
 
+        homeViewModel.dieListLive.observe(viewLifecycleOwner, {
+            binding.rvDieResults.adapter = DieResultAdapter(requireContext(), it)
+            setRecyclerView(it)
+        })
+
     }
 
     private fun initViewModel(){
@@ -87,24 +94,11 @@ class HomeFragment: Fragment() {
         spinnerDiceType.setSelection(SPN_WHAT_TYPE_SELECTION)
     }
 
-    fun getDiceType(position: Int, spinnerDiceType: Spinner): String {
+       fun getDiceType(position: Int, spinnerDiceType: Spinner): String {
 
-        return spinnerDiceType.getItemAtPosition(position).toString()
+           return spinnerDiceType.getItemAtPosition(position).toString()
 
-    }
-
-    private fun rollDice(howMany: Int, whatType: String) {
-
-        binding.tvSum.text = homeViewModel.resetSumText()
-
-        val dieList: ArrayList<DieModel> = homeViewModel.populateDiceList(howMany, whatType)
-        binding.tvSum.append(homeViewModel.returnSumText())
-        binding.tvSum.visibility = homeViewModel.setSumVisibility(howMany, whatType)
-        binding.rvDieResults.adapter = DieResultAdapter(requireContext(), dieList)
-
-        setRecyclerView(dieList)
-
-    }
+       }
 
     private fun initSpinners(spinner: Spinner, strArray: Array<String>): Spinner {
         spinner.adapter = ArrayAdapter(requireContext(), R.layout.spinner_items, strArray)

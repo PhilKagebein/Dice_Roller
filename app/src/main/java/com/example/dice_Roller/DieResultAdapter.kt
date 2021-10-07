@@ -1,11 +1,10 @@
-package com.example.Dice_Roller
+package com.example.dice_Roller
 
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.diceroller_gridlayoutintro.R
 
 class DieResultAdapter(private var context: Context, private var diceList: ArrayList<DieModel>):
     RecyclerView.Adapter<DieResultAdapter.DieResultViewHolder>() {

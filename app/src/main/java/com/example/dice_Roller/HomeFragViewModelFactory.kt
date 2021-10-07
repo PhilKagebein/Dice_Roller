@@ -1,4 +1,4 @@
-package com.example.Dice_Roller
+package com.example.dice_Roller
 
 import android.app.Application
 import android.content.res.Resources

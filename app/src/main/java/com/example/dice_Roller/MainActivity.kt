@@ -1,4 +1,4 @@
-package com.example.Dice_Roller
+package com.example.dice_Roller
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,8 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.diceroller_gridlayoutintro.R
-import com.example.diceroller_gridlayoutintro.databinding.ActivityMainBinding
+import com.example.dice_Roller.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    // move this to settingfragment
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 
         if(displayOverflowMenu){
@@ -73,7 +71,6 @@ class MainActivity : AppCompatActivity() {
     private fun setActionBar() {
 
         val actionBar = supportActionBar
-        //make this a companion object
         actionBar?.elevation = ACTIONBAR_ELEVATION
         actionBar?.setBackgroundDrawable(viewModel.pickActionBarColor())
         actionBar?.setDisplayShowTitleEnabled(false)
