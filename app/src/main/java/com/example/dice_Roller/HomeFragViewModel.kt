@@ -47,7 +47,7 @@ class HomeFragViewModel(private val app: Application, private val resources: Res
     // @@@ktg there's probably a way to not use substring (as in, refactor how some code works
     // so that you don't need to do an operation that grabs part of a different value).
     // Using hard-coded indices should set off warning bells: it's fragile and usually not best practice.
-    fun populateDiceList(howMany: Int, whatType: String)/*: MutableLiveData<ArrayList<DieModel>> */{
+    fun populateDiceList(howMany: Int, whatType: String) {
 
        val dieList = ArrayList<DieModel>()
         sumInt.value = 0

@@ -43,7 +43,7 @@ class HomeFragment: Fragment() {
             //fix bang bang
             homeViewModel.wasRollBtnPressed.postValue(!homeViewModel.wasRollBtnPressed.value!!)
             homeViewModel.populateDiceList(howMany, whatType)
-            //rollDice(howMany, whatType)
+            //Ask aboout moving .vibratePhone() to viewModel later.
             homeViewModel.vibratePhone()
 
         }
