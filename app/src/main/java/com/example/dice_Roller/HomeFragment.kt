@@ -1,15 +1,14 @@
 package com.example.dice_Roller
 
 import android.os.*
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.dice_Roller.databinding.HomeFragmentBinding
 
@@ -21,6 +20,7 @@ class HomeFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = HomeFragmentBinding.inflate(inflater, container, false)
         initViewModel()
+        setHasOptionsMenu(true)
 
         val darkModeValue = homeViewModel.checkThemeMode()
         homeViewModel.setThemeMode(darkModeValue)
@@ -30,6 +30,7 @@ class HomeFragment: Fragment() {
 
         return binding.root
     }
+
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -79,6 +80,22 @@ class HomeFragment: Fragment() {
             setRecyclerView(it)
         })
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.topbar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId) {
+
+            R.id.settings -> {
+                findNavController().navigate(R.id.navigateToSettingsFragment)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initViewModel(){
