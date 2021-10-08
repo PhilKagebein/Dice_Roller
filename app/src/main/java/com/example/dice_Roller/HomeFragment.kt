@@ -90,7 +90,6 @@ class HomeFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId) {
-
             R.id.settings -> {
                 findNavController().navigate(R.id.navigateToSettingsFragment)
             }
