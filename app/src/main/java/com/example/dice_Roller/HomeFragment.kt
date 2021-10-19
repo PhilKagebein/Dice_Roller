@@ -27,7 +27,6 @@ class HomeFragment: Fragment() {
 
         binding.homeviewmodel = homeViewModel
         binding.lifecycleOwner = this
-
         return binding.root
     }
 
@@ -40,15 +39,11 @@ class HomeFragment: Fragment() {
         var whatType = homeViewModel.whatType
 
         binding.btnRollDice.setOnClickListener {
-            //fix bang bang
-            homeViewModel.wasRollBtnPressed.postValue(!homeViewModel.wasRollBtnPressed.value!!)
+            homeViewModel.wasRollBtnPressed.postValue(homeViewModel.wasRollBtnPressed.value?.let {!it})
             homeViewModel.populateDiceList(howMany, whatType)
-            //Ask aboout moving .vibratePhone() to viewModel later.
             homeViewModel.vibratePhone()
-
         }
 
-        //worth putting these into a function?
         var spinnerHowMany = binding.spnHowManyDice
         spinnerHowMany = initSpinners(spinnerHowMany, homeViewModel.getHowManyStrArray())
 
@@ -67,7 +62,6 @@ class HomeFragment: Fragment() {
         }
         spinnerDiceType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(diceTypeAdapterview: AdapterView<*>?, view: View?, itemPosition: Int, rowId: Long) {
-
                 whatType = getDiceType(itemPosition, spinnerDiceType)
             }
 
@@ -76,7 +70,7 @@ class HomeFragment: Fragment() {
         }
 
         homeViewModel.dieListLive.observe(viewLifecycleOwner, {
-            binding.rvDieResults.adapter = DieResultAdapter(requireContext(), it)
+            binding.rvDieResults.adapter = DieResultAdapter(it)
             setRecyclerView(it)
         })
 
@@ -90,19 +84,15 @@ class HomeFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId) {
-            R.id.settings -> {
-                findNavController().navigate(R.id.navigateToSettingsFragment)
-            }
+            R.id.settings -> findNavController().navigate(R.id.navigateToSettingsFragment)
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun initViewModel(){
-        //requireActivity() can result in null pointer exceptions I believe.
-        // Using activity.application led to a cascade of null checks that needed to be made.
-        // Need to understand how to properly navigate that
-        val factory = HomeFragInjector.Injector.provideHomeFragViewModelFactory(requireActivity().application, resources)
-        homeViewModel = ViewModelProvider(this, factory)[HomeFragViewModel::class.java]
+        val factory = activity?.let { HomeFragInjector.Injector.provideHomeFragViewModelFactory(it.application, resources) }
+        homeViewModel =
+            factory?.let { ViewModelProvider(this, it) }?.get(HomeFragViewModel::class.java) as HomeFragViewModel
     }
 
     private fun setSpinnerSelections(spinnerHowMany: Spinner, spinnerDiceType: Spinner) {

@@ -3,9 +3,8 @@ package com.example.dice_Roller
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.os.*
+import android.os.VibrationEffect.DEFAULT_AMPLITUDE
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
@@ -41,7 +40,10 @@ class HomeFragViewModel(private val app: Application, private val resources: Res
     }
 
     private fun getDiceModel(diceValue: Int, diceTypeInt: Int): DieModel {
-        return DieModel(resources.getIdentifier("d${diceTypeInt}_$diceValue", "drawable", app.packageName), "d${diceTypeInt}_+$diceValue")
+        return DieModel(
+            resources.getIdentifier("d${diceTypeInt}_$diceValue", "drawable", app.packageName),
+            "d${diceTypeInt}_+$diceValue"
+        )
     }
 
     // @@@ktg there's probably a way to not use substring (as in, refactor how some code works
@@ -55,8 +57,7 @@ class HomeFragViewModel(private val app: Application, private val resources: Res
         for (i in 1..howMany) {
             val diceValue = (1..whatTypeInt).random()
             dieList.add(getDiceModel(diceValue, whatTypeInt))
-            //How do I do this without bang bang
-            sumInt.value = sumInt.value!! + diceValue
+            sumInt.value = sumInt.value?.let{it + diceValue}
         }
         dieListLive.postValue(dieList)
 
@@ -94,13 +95,11 @@ class HomeFragViewModel(private val app: Application, private val resources: Res
     fun vibratePhone() {
         //Is this best practice to have the function in the if statement? Or should i pull it out and set a variable equal to the return of the function and then use the variable in the if?
         if (loadVibrateSetting()) {
-            val vibrator = app.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
-
-            vibrator?.vibrate(100)
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                val vibratorManager = app.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager
+                vibratorManager?.vibrate(CombinedVibration.createParallel(VibrationEffect.createOneShot(100, DEFAULT_AMPLITUDE)))
             } else {
+                val vibrator = app.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
                 vibrator?.vibrate(100)
             }
         }
